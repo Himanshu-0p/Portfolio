@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { Github, Twitter, Linkedin, Mail, ExternalLink, Code2 } from 'lucide-react';
 import Link from 'next/link';
-import Chatbot from '@/components/Chatbot';
+import Chatbot from '../components/Chatbot';
 
 export default function Home() {
   const containerVariants = {
