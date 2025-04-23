@@ -270,45 +270,41 @@ export default function Home() {
               I'm passionate about creating cool projects in web development. I love UI design with a minimalist touch. When I'm not coding, I'm diving into research and exploring new ideas.
             </motion.p>
             
-            {/* Enhanced social links with floating animation */}
+            {/* Simplified social links with more reliable hover effects */}
             <motion.div 
               variants={itemVariants} 
               className="flex justify-center gap-6 mb-12"
             >
               {[
-                { Icon: Github, href: "https://github.com/Himanshu-0p", label: "GitHub", color: "hover:text-blue-400" },
-                { Icon: Twitter, href: "https://x.com/HimanshuPa75809", label: "Twitter", color: "hover:text-blue-400" },
-                { Icon: Linkedin, href: "https://www.linkedin.com/in/himanshu-patil-653627318/", label: "LinkedIn", color: "hover:text-blue-400" },
-                { Icon: Mail, href: "mailto:patilhimanshu1102@gmail.com", label: "Email", color: "hover:text-blue-400" },
-              ].map(({ Icon, href, label, color }, i) => (
+                { Icon: Github, href: "https://github.com/Himanshu-0p", label: "GitHub" },
+                { Icon: Twitter, href: "https://x.com/HimanshuPa75809", label: "Twitter" },
+                { Icon: Linkedin, href: "https://www.linkedin.com/in/himanshu-patil-653627318/", label: "LinkedIn" },
+                { Icon: Mail, href: "mailto:patilhimanshu1102@gmail.com", label: "Email" },
+              ].map(({ Icon, href, label }, i) => (
                 <motion.a
                   key={i}
                   href={href}
                   aria-label={label}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`p-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-300 transform hover:scale-110 hover:rotate-6 ${color}`}
-                  whileHover={{ 
-                    y: -5,
-                    boxShadow: "0 10px 25px -5px rgba(59, 130, 246, 0.5)" 
-                  }}
+                  className="p-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 transition-colors duration-300 hover:text-blue-400"
                 >
                   <Icon size={24} />
                 </motion.a>
               ))}
             </motion.div>
             
-            {/* Enhanced CTA button with glow effect */}
+            {/* Static CTA button without hover movement */}
             <motion.div variants={itemVariants}>
               <a 
                 href="#projects" 
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full font-medium text-white hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300 transform hover:scale-105 relative overflow-hidden group"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full font-medium text-white hover:shadow-lg hover:shadow-blue-500/30 transition-colors duration-300 relative overflow-hidden group"
               >
                 <span className="relative z-10">View My Work</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="relative z-10"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
                 
-                {/* Button glow effect */}
-                <span className="absolute top-0 left-0 w-full h-full bg-white/20 transform -translate-x-full hover:translate-x-0 transition-transform duration-300 group-hover:translate-x-0"></span>
+                {/* Button glow effect without movement */}
+                <span className="absolute top-0 left-0 w-full h-full bg-white/20 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></span>
               </a>
             </motion.div>
           </motion.div>
