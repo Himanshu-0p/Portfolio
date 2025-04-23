@@ -57,27 +57,45 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [isLoading, loadingProgress]);
 
+  // Add mouse position tracking for interactive elements
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    
+    if (typeof window !== 'undefined') {
+      window.addEventListener('mousemove', handleMouseMove);
+      return () => window.removeEventListener('mousemove', handleMouseMove);
+    }
+  }, []);
+
   // Handle scroll for parallax effects and active section
   useEffect(() => {
     const handleScroll = () => {
-      setScrollY(window.scrollY);
-      
-      // Determine active section based on scroll position
-      const sections = ['home', 'about', 'skills', 'projects', 'contact'];
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 100 && rect.bottom >= 100) {
-            setActiveSection(section);
-            break;
+      if (typeof window !== 'undefined') {
+        setScrollY(window.scrollY);
+        
+        // Determine active section based on scroll position
+        const sections = ['home', 'about', 'skills', 'projects', 'contact'];
+        for (const section of sections) {
+          const element = document.getElementById(section);
+          if (element) {
+            const rect = element.getBoundingClientRect();
+            if (rect.top <= 100 && rect.bottom >= 100) {
+              setActiveSection(section);
+              break;
+            }
           }
         }
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+    }
   }, []);
 
   const containerVariants = {
@@ -161,18 +179,6 @@ export default function Home() {
     // Extended Reality skill removed
   ];
 
-  // Add mouse position tracking for interactive elements
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
   return (
     <main className="bg-gradient-to-b from-[#0a0a0a] to-[#131313] text-white min-h-screen">
       {/* Enhanced animated background with interactive particles */}
@@ -186,17 +192,23 @@ export default function Home() {
         {/* Interactive gradient orbs that follow mouse subtly */}
         <div className="absolute top-40 left-10 w-40 h-40 rounded-full bg-blue-500 opacity-20 blur-3xl"
           style={{
-            transform: `translate(${(mousePosition.x - window.innerWidth/2) * 0.02}px, ${(mousePosition.y - window.innerHeight/2) * 0.02}px)`
+            transform: typeof window !== 'undefined' ? 
+              `translate(${(mousePosition.x - window.innerWidth/2) * 0.02}px, ${(mousePosition.y - window.innerHeight/2) * 0.02}px)` : 
+              'none'
           }}
         ></div>
         <div className="absolute top-60 right-20 w-56 h-56 rounded-full bg-purple-500 opacity-10 blur-3xl"
           style={{
-            transform: `translate(${(mousePosition.x - window.innerWidth/2) * -0.01}px, ${(mousePosition.y - window.innerHeight/2) * -0.01}px)`
+            transform: typeof window !== 'undefined' ? 
+              `translate(${(mousePosition.x - window.innerWidth/2) * -0.01}px, ${(mousePosition.y - window.innerHeight/2) * -0.01}px)` : 
+              'none'
           }}
         ></div>
         <div className="absolute bottom-20 left-1/3 w-72 h-72 rounded-full bg-indigo-500 opacity-10 blur-3xl"
           style={{
-            transform: `translate(${(mousePosition.x - window.innerWidth/2) * 0.015}px, ${(mousePosition.y - window.innerHeight/2) * 0.015}px)`
+            transform: typeof window !== 'undefined' ? 
+              `translate(${(mousePosition.x - window.innerWidth/2) * 0.015}px, ${(mousePosition.y - window.innerHeight/2) * 0.015}px)` : 
+              'none'
           }}
         ></div>
       </div>
@@ -717,7 +729,8 @@ export default function Home() {
         <motion.div 
           className="h-full bg-gradient-to-r from-blue-500 to-purple-600"
           style={{ 
-            scaleX: scrollY / (document.body.scrollHeight - window.innerHeight),
+            scaleX: typeof window !== 'undefined' ? 
+              scrollY / (document.body.scrollHeight - window.innerHeight || 1) : 0,
             originX: 0,
             originY: 0
           }}
